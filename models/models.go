@@ -3,12 +3,13 @@ package models
 import "time"
 
 type Request struct {
-	URL_LONG   string        `json:"url"`
-	URL_SHORT  string        `json:"short"`
-	Expiration time.Duration `json:"expiration"`
+	URL        string        `json:"url"`
+	Short      string        `json:"short"`
+	Expiration time.Duration `json:"time"`
 }
 
 type Response struct {
-	URL_LONG  string `json:"url"`
-	URL_SHORT string `json:"short"`
+	URL        string        `json:"url"`
+	SHORT      string        `json:"short"`
+	Expiration time.Duration `json:"time"`
 }
