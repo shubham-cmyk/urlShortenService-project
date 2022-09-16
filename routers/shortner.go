@@ -11,7 +11,7 @@ func URLShortner(app *fiber.Ctx) error {
 
 	requestBody := new(models.Request)
 
-	if err := app.BodyParser(&requestBody); err != nil {
+	if err := app.BodyParser(requestBody); err != nil {
 		return app.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "cannot Parse the Request ",
 		})
