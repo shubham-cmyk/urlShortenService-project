@@ -41,9 +41,20 @@ func URLShortner(app *fiber.Ctx) error {
 		})
 	}
 
-	db1.Set(database.Ctx, rndId, requestBody.URL_LONG, requestBody.Expiration)
+	// Set the Short value into the database
+	err = db1.Set(database.Ctx, rndId, requestBody.URL_LONG, requestBody.Expiration).Err()
+	if err != nil {
+		return app.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "unable to connect to server",
+		})
+	}
 
-	return nil
+	resp := models.Response{
+		URL_LONG:  requestBody.URL_LONG,
+		URL_SHORT: "localhost:3000" + rndId,
+	}
+
+	return app.JSON(resp)
 
 }
 
