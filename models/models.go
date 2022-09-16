@@ -1,11 +1,15 @@
 package models
 
+import "time"
+
 type Request struct {
-	URL_LONG  string `json:"url_long"`
-	URL_SHORT string `json:"url_short"`
+	URL        string        `json:"url"`
+	Short      string        `json:"short"`
+	Expiration time.Duration `json:"time"`
 }
 
 type Response struct {
-	URL_LONG  string `json:"url_long"`
-	URL_SHORT string `json:"url_short"`
+	URL        string        `json:"url"`
+	SHORT      string        `json:"short"`
+	Expiration time.Duration `json:"time"`
 }
