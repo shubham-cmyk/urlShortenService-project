@@ -17,5 +17,6 @@ func main() {
 func setupRoutes(app *fiber.App) {
 
 	app.Get("/:url", routers.ApiCallURL)
+	app.Post("/api", routers.URLShortner)
 
 }
