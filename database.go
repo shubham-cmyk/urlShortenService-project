@@ -8,6 +8,7 @@ import (
 
 var Ctx = context.Background()
 
+// Redis database selected
 func CreateClient(dint int) *redis.Client {
 
 	redisDatabase := redis.NewClient(&redis.Options{
