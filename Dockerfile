@@ -4,6 +4,7 @@ WORKDIR /workspace
 
 COPY go.mod go.mod
 COPY go.sum go.sum
+COPY .env .env
 
 RUN go mod download
 

@@ -1,20 +1,29 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/routers"
 )
 
 func main() {
 
-	app := fiber.New()
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Some error occured. Err: %s", err)
+	}
 
+	// Create a Fiber named instance
+	app := fiber.New()
+	// Set up the routing path for the GET and POST method
 	setupRoutes(app)
 
-	err := app.Listen(":3000")
-	fmt.Printf("got an error while listen %s", err)
+	err = app.Listen(os.Getenv("PORT"))
+	// Raise the Panic if found error
+	panic(err)
 }
 
 func setupRoutes(app *fiber.App) {
