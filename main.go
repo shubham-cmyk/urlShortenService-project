@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/shubham-cmyk/infraCloud-URL-Shortner/routers"
 )
 
 func main() {
@@ -14,5 +15,7 @@ func main() {
 }
 
 func setupRoutes(app *fiber.App) {
+
+	app.Get("/:url", routers.ApiCallURL)
 
 }
