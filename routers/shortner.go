@@ -1,6 +1,9 @@
 package routers
 
 import (
+	"os"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/database"
@@ -48,16 +51,16 @@ func URLShortner(app *fiber.Ctx) error {
 	}
 
 	// Set the Short value into the database
-	_ = db1.Set(database.Ctx, rndId, requestBody.URL, requestBody.Expiration).Err()
-	// if err != nil {
-	// 	return app.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-	// 		"error": "unable to connect to server",
-	// 	})
-	// }
+	err := db1.Set(database.Ctx, rndId, requestBody.URL, requestBody.Expiration*time.Minute).Err()
+	if err != nil {
+		return app.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "unable to connect to server",
+		})
+	}
 
 	resp := models.Response{
 		URL:        requestBody.URL,
-		SHORT:      "localhost:3000" + "/" + rndId,
+		SHORT:      os.Getenv("DOMAIN") + "/" + rndId,
 		Expiration: requestBody.Expiration,
 	}
 

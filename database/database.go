@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"os"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -13,8 +14,8 @@ func CreateClient(dint int) *redis.Client {
 
 	redisDatabase := redis.NewClient(&redis.Options{
 		DB:       dint,
-		Addr:     "db:6379",
-		Password: "",
+		Addr:     os.Getenv("DATABASE_ADDRESS"),
+		Password: os.Getenv("DATABASE_PASSWORD"),
 	})
 
 	return redisDatabase

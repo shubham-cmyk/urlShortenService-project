@@ -17,7 +17,9 @@ func ApiCallURL(app *fiber.Ctx) error {
 	longURL, err := db1.Get(database.Ctx, url).Result()
 
 	if err != nil {
-		return err
+		return app.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"error": "unable to find the key",
+		})
 	}
 
 	// Redirect the request to the long URL
