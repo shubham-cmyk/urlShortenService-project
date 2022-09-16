@@ -41,10 +41,16 @@ func URLShortner(app *fiber.Ctx) error {
 		})
 	}
 
+	db1.Set(database.Ctx, rndId, requestBody.URL_LONG, requestBody.Expiration)
+
 	return nil
 
 }
 
 func createShort() {
+
+}
+
+func reponseShortner() {
 
 }
