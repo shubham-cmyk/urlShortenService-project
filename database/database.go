@@ -15,6 +15,7 @@ func CreateClient(dint int) *redis.Client {
 	redisDatabase := redis.NewClient(&redis.Options{
 		DB:       dint,
 		Addr:     os.Getenv("DATABASE_ADDRESS"),
+		Username: os.Getenv("DATBASE_USER"),
 		Password: os.Getenv("DATABASE_PASSWORD"),
 	})
 
