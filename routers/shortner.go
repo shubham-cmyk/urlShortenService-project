@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -60,7 +59,7 @@ func URLShortner(app *fiber.Ctx) error {
 
 	resp := models.Response{
 		URL:        requestBody.URL,
-		SHORT:      os.Getenv("DOMAIN") + "/" + rndId,
+		SHORT:      "localhost:3000" + "/" + rndId,
 		Expiration: requestBody.Expiration,
 	}
 
