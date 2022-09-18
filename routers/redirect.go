@@ -3,10 +3,9 @@ package routers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/database"
-	"github.com/shubham-cmyk/infraCloud-URL-Shortner/models"
 )
 
-func ApiCallURL(app *fiber.Ctx) error {
+func RedirectURL(app *fiber.Ctx) error {
 
 	// Short URL from the Params
 	url := app.Params("url")
@@ -23,9 +22,7 @@ func ApiCallURL(app *fiber.Ctx) error {
 		})
 	}
 
-	reponsebody := models.Response{
-		URL:   longURL,
-		SHORT: url,
-	}
-	return app.JSON(reponsebody)
+	//	Redirect the request to the long URL
+	return app.Redirect(longURL, fiber.StatusPermanentRedirect)
+
 }

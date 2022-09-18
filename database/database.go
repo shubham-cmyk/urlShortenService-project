@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"os"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -14,9 +13,12 @@ func CreateClient(dint int) *redis.Client {
 
 	redisDatabase := redis.NewClient(&redis.Options{
 		DB:       dint,
-		Addr:     os.Getenv("DATABASE_ADDRESS"),
-		Username: os.Getenv("DATBASE_USER"),
-		Password: os.Getenv("DATABASE_PASSWORD"),
+		Addr:     "db:6379",
+		Username: "infracloud",
+		Password: "",
+		// Addr:     os.Getenv("DATABASE_ADDRESS"),
+		// Username: os.Getenv("DATBASE_USER"),
+		// Password: os.Getenv("DATABASE_PASSWORD"),
 	})
 
 	return redisDatabase

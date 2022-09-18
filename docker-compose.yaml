@@ -2,16 +2,10 @@ version: "3"
 
 services:
   url-shorten:
-    image: shubham192001/infracloud-urlshortner
-    build: 
-      context: "."
+    image: shubham192001/infracloud-urlshortner:0.5
     ports:
       - 127.0.0.1:3000:3000
     restart: always
-    volumes:
-      - ./.env:/workspace/.env
-    env_file:
-      - ./.env
     depends_on:
       - db
 
