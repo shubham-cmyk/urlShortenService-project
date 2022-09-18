@@ -24,3 +24,12 @@ How to use it
 CURL - curl -H "Content-Type: application/json" -X POST -d '{"url":"www.google.com"}' http://localhost:3000/api/
 
 
+How to Deploy it : 
+
+1. You can use docker-compose up -d to deploy it using docker
+2. You can use the local host but then you need to connect your redis database to the .env
+
+Sample Request : 
+1. You can use the POSTMAN to send a API requst or use CURL 
+2. Once you have set the Path you can use your  localhost:3000/{shortURL}
+3. If you want to get the long URL again use localhost:3000/get/{shortURL}
