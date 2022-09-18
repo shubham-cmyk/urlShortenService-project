@@ -24,7 +24,8 @@ func main() {
 
 func setupRoutes(app *fiber.App) {
 
-	app.Get("/:url", routers.ApiCallURL)
+	app.Get("/:url", routers.RedirectURL)
 	app.Post("/api", routers.URLShortner)
+	app.Get("/get/:url", routers.ApiCallURL)
 
 }

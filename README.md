@@ -6,7 +6,7 @@ Library Used :
 3. Redis Client 
 
 
-You can configure the Your redis databse from the .env File
+You can configure the Your redis databse from the .env File ( Deprecated for now would add soon )
 
 User can Define it's own short URL he need ( It's optional the logical would still work)
 
