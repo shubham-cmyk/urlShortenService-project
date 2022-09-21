@@ -1,4 +1,4 @@
-# infraCloud-URL-Shortner
+# urlShortenService
 
 Library Used : 
 1. Golang fiber
