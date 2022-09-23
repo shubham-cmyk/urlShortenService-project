@@ -1,10 +1,7 @@
 package routers
 
 import (
-	"time"
-
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/database"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/models"
 )
@@ -21,45 +18,49 @@ func URLShortner(app *fiber.Ctx) error {
 
 	db1 := database.CreateClient(1)
 	defer db1.Close()
+	db2 := database.CreateClient(2)
+	defer db2.Close()
+	var ctx = database.Ctx
+	var (
+		shortGenerated string
+	)
 
-	// Generate a random ID of 6 char if URL_short is not there
-	var rndId string
-	if requestBody.Short == "" {
-		rndId = uuid.New().String()[:6]
-	} else {
-		rndId = requestBody.Short
+	short, exist := checkLongURL(ctx, requestBody.URL, db2)
+
+	switch exist {
+	case true:
+		shortGenerated = short
+		return urlResponse(requestBody, shortGenerated, app)
+	case false:
+		shortGenerated = generateshortURL(ctx, db1, requestBody)
+		err := checkShortInUse(ctx, db1, app, shortGenerated)
+		if err != nil {
+			return err
+		}
+		err = saveShort(ctx, db1, requestBody, app, shortGenerated)
+		if err != nil {
+			return err
+		}
+		err = saveKeyPair(ctx, db2, shortGenerated, requestBody.URL, requestBody)
+		if err != nil {
+			return err
+		}
+		return urlResponse(requestBody, shortGenerated, app)
+
 	}
+
+	return nil
+}
+
+func urlResponse(requestBody *models.Request, shortGenerated string, app *fiber.Ctx) error {
 
 	if requestBody.Expiration == 0 {
 		requestBody.Expiration = 20
 	}
 
-	// Check Whether the Short URL is already present in the database or not
-	// Possible value Empty or String
-	longURL, _ := db1.Get(database.Ctx, rndId).Result()
-	// if err != nil {
-	// 	return app.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-	// 		"error": "unable to read",
-	// 	})
-	// }
-
-	if longURL != "" {
-		return app.Status(fiber.StatusForbidden).JSON(fiber.Map{
-			"error": " URL is already in the use",
-		})
-	}
-
-	// Set the Short value into the database
-	err := db1.Set(database.Ctx, rndId, requestBody.URL, requestBody.Expiration*time.Minute).Err()
-	if err != nil {
-		return app.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "unable to connect to server",
-		})
-	}
-
 	resp := models.Response{
 		URL:        requestBody.URL,
-		SHORT:      "localhost:3000" + "/" + rndId,
+		SHORT:      "localhost:3000" + "/" + shortGenerated,
 		Expiration: requestBody.Expiration,
 	}
 
