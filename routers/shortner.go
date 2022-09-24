@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/database"
 	"github.com/shubham-cmyk/infraCloud-URL-Shortner/models"
@@ -60,7 +62,7 @@ func urlResponse(requestBody *models.Request, shortGenerated string, app *fiber.
 
 	resp := models.Response{
 		URL:        requestBody.URL,
-		SHORT:      "localhost:3000" + "/" + shortGenerated,
+		SHORT:      os.Getenv("IP") + "/" + shortGenerated,
 		Expiration: requestBody.Expiration,
 	}
 
